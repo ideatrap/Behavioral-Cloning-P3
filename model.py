@@ -88,7 +88,7 @@ from sklearn.model_selection import train_test_split
 X_train, X_valid, y_train, y_valid = train_test_split(X_all, y_all, test_size=0.25)
 
 
-def generator(X,Y, batch_size=160):
+def generator(X,Y, batch_size=32):
     num_samples = len(X)
     while 1: # Loop forever so the generator never terminates
         #shuffle first
