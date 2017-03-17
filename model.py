@@ -128,11 +128,12 @@ def train_model(learningRate=0.01):
 
     model.compile(loss = 'mse', optimizer=Adam(lr = learningRate))
     model.fit_generator(train_generator,
-                        steps_per_epoch= np.ceil(len(X_train)/batch_s),
+                        steps_per_epoch= len(X_train),
                         validation_data = validation_generator,
-                        validation_steps = np.ceil(len(X_valid)/batch_s),
-                        epochs = 4)
+                        validation_steps = len(X_valid),
+                        epochs = 3)
     model.save('model.h5')
 
 
 train_model()
+
