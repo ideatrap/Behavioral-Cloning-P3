@@ -5,24 +5,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-###
-### for testing ###
-# should be deleted at submission
-###
-
-
-'''
-with open('test_img.pickle', 'rb') as input_file:
-    img = pickle.load(input_file)
-'''
-
-
-def display(img):
-    plt.imshow(img.squeeze(), cmap='gray')
-    plt.show()
-
-##############
-
 def consolidate_input (file_list):
     images = []
     measurements = []
