@@ -49,7 +49,7 @@ def consolidate_input (file_list):
 7 track 2 reverse
 '''
 #consolidate training data
-consolidate_input(['1','2'])
+consolidate_input(['1'])
 
 
 #load the training data
@@ -62,15 +62,17 @@ with open('y_train.pickle', 'rb') as input_file:
 
 from keras.models import Sequential
 from keras.optimizers import Adam
-from keras.layers import Flatten, Dense, Lambda, Cropping2D, Convolution2D, Dropout
+from keras.layers import Flatten, Dense, Lambda, Cropping2D
+from keras.layers.convolutional import Conv2D
+from keras.layers.core import Dropout
 import sklearn
 from sklearn.model_selection import train_test_split
 
 # split the data for training set and test set
 X_train, X_valid, y_train, y_valid = train_test_split(X_all, y_all, test_size=0.25)
 
-
-def generator(X,Y, batch_size=32):
+batch_s=32
+def generator(X,Y, batch_size=batch_s):
     num_samples = len(X)
     while 1: # Loop forever so the generator never terminates
         #shuffle first
@@ -92,8 +94,8 @@ def generator(X,Y, batch_size=32):
             yield sklearn.utils.shuffle(X_train, y_train)
 
 # compile and train the model using the generator function
-train_generator = generator(X_train, y_train, batch_size=32)
-validation_generator = generator(X_valid, y_valid, batch_size=32)
+train_generator = generator(X_train, y_train, batch_size=batch_s)
+validation_generator = generator(X_valid, y_valid, batch_size=batch_s)
 
 #define the model
 def train_model(learningRate=0.01):
@@ -111,14 +113,14 @@ def train_model(learningRate=0.01):
     model.add(Lambda(lambda x: x/255.0 - 0.5))
 
     #Implement NVIDIA End-to-End model, https://arxiv.org/abs/1604.07316
-    model.add(Convolution2D(24, 5, 5, activation="relu"))
-    model.add(Convolution2D(36, 5, 5, activation="relu"))
-    model.add(Convolution2D(48, 5, 5, activation="relu"))
-    model.add(Convolution2D(64, 5, 5, activation="relu"))
-    model.add(Convolution2D(64, 5, 5, activation="relu"))
+    model.add(Conv2D(24, (5, 5), activation="relu"))
+    model.add(Conv2D(36, (5, 5), activation="relu"))
+    model.add(Conv2D(48, (5, 5), activation="relu"))
+    model.add(Conv2D(64, (5, 5), activation="relu"))
+    model.add(Conv2D(64, (5, 5), activation="relu"))
     model.add(Flatten())
     model.add(Dense(100))
-    model.add(Dropout(p = 0.5))
+    model.add(Dropout(rate = 0.5))
     model.add(Dense(50))
     model.add(Dense(10))
     model.add(Dense(1))
@@ -128,7 +130,7 @@ def train_model(learningRate=0.01):
 
     model.compile(loss = 'mse', optimizer=Adam(lr = learningRate))
     model.fit_generator(train_generator,
-                        samples_per_epoch= len(X_train),
+                        steps_per_epoch= np.ceil(len(X_train)/batch_s),
                         validation_data = validation_generator,
                         nb_val_samples = len(X_valid),
                         nb_epoch = 4)
