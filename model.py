@@ -49,7 +49,7 @@ def consolidate_input (file_list):
 7 track 2 reverse
 '''
 #consolidate training data
-consolidate_input(['1','2'])
+consolidate_input(['1'])
 
 
 #load the training data
