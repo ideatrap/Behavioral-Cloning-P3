@@ -49,7 +49,7 @@ def consolidate_input (file_list):
 7 track 2 reverse
 '''
 #consolidate training data
-consolidate_input(['1'])
+consolidate_input(['1','2'])
 
 
 #load the training data
@@ -125,15 +125,13 @@ def train_model(learningRate=0.01):
     model.add(Dense(10))
     model.add(Dense(1))
 
-    #TODO collect more data
-
 
     model.compile(loss = 'mse', optimizer=Adam(lr = learningRate))
     model.fit_generator(train_generator,
                         steps_per_epoch= np.ceil(len(X_train)/batch_s),
                         validation_data = validation_generator,
-                        nb_val_samples = len(X_valid),
-                        nb_epoch = 4)
+                        validation_steps = np.ceil(len(X_valid)/batch_s),
+                        epochs = 4)
     model.save('model.h5')
 
 
