@@ -74,7 +74,6 @@ def consolidate_input (file_list):
 
     y_all = np.array(measurements)
 
-    #return X_all,y_all
     return sklearn.utils.shuffle(X_all,y_all)
 
     print("Data are successfully consolidated.")
@@ -106,8 +105,6 @@ batch_s=32
 def generator(X,Y, batch_size=batch_s):
     num_samples = len(X)
     while 1: # Loop forever so the generator never terminates
-        #shuffle first
-        #X,Y = sklearn.utils.shuffle(X,Y)
 
         for offset in range(0, num_samples, batch_size):
             X_samples = X[offset:offset + batch_size]
@@ -153,7 +150,6 @@ def train_model(learningRate=1e-4):
 
     model.add(Convolution2D(64, 3, 3,activation="relu"))
     model.add(Convolution2D(64, 3, 3, activation="relu"))
- #   model.add(MaxPooling2D(pool_size=(2, 2), strides=(1, 1)))
 
     model.add(Flatten())
     model.add(Dense(100, activation='relu'))
