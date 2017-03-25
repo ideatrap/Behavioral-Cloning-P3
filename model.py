@@ -10,6 +10,8 @@ from keras.layers.core import Dropout
 from sklearn.model_selection import train_test_split
 import random
 
+
+#preprocessing the data
 def consolidate_input (file_list):
     images = []
     measurements = []
@@ -23,6 +25,7 @@ def consolidate_input (file_list):
                 lines.append(line)
 
         for line in lines:
+            #load the center image
             center_path = line[0]
             filename = center_path.split('/')[-1]
             current_path = '../data/'+ file +'/IMG/' + filename
@@ -102,6 +105,7 @@ print("Data are suceessfully loaded.")
 X_train, X_valid, y_train, y_valid = train_test_split(X_all, y_all, test_size=0.20)
 
 batch_s=32
+#generator to feed in image in batches so that it can utilize GPU better
 def generator(X,Y, batch_size=batch_s):
     num_samples = len(X)
     while 1: # Loop forever so the generator never terminates
