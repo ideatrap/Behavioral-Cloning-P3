@@ -21,7 +21,7 @@ My project includes the following files:
 * `drive.py` for driving the car in autonomous mode
 * `model.h5` containing a trained convolution neural network
 * `writeup.md` summarizing the results
-* `model_run` for the video recording on track 1
+* `model_run.mp4` for the video recording on track 1
 
 
 #### 2. Submission includes functional code
@@ -119,4 +119,4 @@ After the collection process. I then preprocessed this data by removing the port
 
 I finally randomly shuffled the data set and put 20% of the data into a validation set.
 
-I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was 4 because anything bigger than 5 doesn't reduce loss meaningfully. I used an adam optimizer so that manually training the learning rate wasn't necessary.
+I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was 4 because anything bigger than 5 doesn't reduce loss meaningfully.q I used an adam optimizer so that manually training the learning rate wasn't necessary.
